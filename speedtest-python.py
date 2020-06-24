@@ -15,14 +15,14 @@ output = speedt.communicate()[0]
 
 myArray = json.loads(output)
 
-speedTestDownloadSpeed = myArray['download'];
-speedTestUploadSpeed = myArray['upload'];
-publicIP = myArray['client']['ip'];
-peers = myArray['server']['sponsor'] + " " +  (myArray['server']['name']) + " " + (myArray['server']['country'])
+speedtestDownloadSpeed = myArray['download'];
+speedtestUploadSpeed = myArray['upload'];
+myPublicIP = myArray['client']['ip'];
+peerServer = myArray['server']['sponsor'] + " " +  (myArray['server']['name']) + " " + (myArray['server']['country'])
 
 
 sql = "INSERT INTO speedtest (TimeStamp, PublicIp, Peers, UploadSpeed, DownloadSpeed) Values(%s,%s,%s,%s,%s)"
-vals = (currentTime,publicIP,peers,speedTestUploadSpeed,speedTestDownloadSpeed)
+vals = (currentTime,myPublicIP,peerServer,speedtestUploadSpeed,speedtestDownloadSpeed)
 
 mycursor.execute(sql,vals)
 
