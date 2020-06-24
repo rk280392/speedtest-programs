@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import shlex
 import subprocess
 import json
 import mysql.connector
@@ -8,9 +9,15 @@ import datetime
 
 currentTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-speedt = subprocess.Popen(['./speedtest.py', '--json'] ,stdout=subprocess.PIPE, universal_newlines=True)
-output  = speedt.communicate()[0]
-exitcode = speedt.returncode
+def get_subprocess(cmd):
+    args = shlex.split(cmd)
+    proc = subprocess.Popen(args, stdout=subprocess.PIPE, universal_newlines=True)
+    output  = proc.communicate()[0]
+    exitcode = proc.returncode
+    return exitcode, output
+
+cmd = "python3 speedtest.py --json"
+exitcode, output = get_subprocess(cmd)
 
 if (exitcode == 0):
     myArray = json.loads(output)
