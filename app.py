@@ -2,7 +2,7 @@ from flask import Flask, request, render_template, redirect
 from flask_mysqldb import MySQL
 
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='app/templates')
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'speedtestuser'
