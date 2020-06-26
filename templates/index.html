@@ -106,22 +106,19 @@ time.setMilliseconds(00);
 function updateChart() {
 	{% for row in speedtests %} 
 		time.setTime(time.getTime()+ updateInterval);
-		yValue1 = '{{ row[5] }}';
-		yValue2 = '{{ row[4] }}';
-		console.log(yValue1);
+		yValue1 = {{ row[5] }};
+		yValue2 = {{ row[4] }};
 
 	// pushing the new values
 	dataPoints1.push({
 		x: time.getTime(),
 		y: yValue1
 	});
-		console.log(dataPoints1);
 
 	dataPoints2.push({
 		x: time.getTime(),
 		y: yValue2
 	});	
-		console.log(dataPoints2);
                 {% endfor  %}
 
 	// updating legend text with  updated with y Value
