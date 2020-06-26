@@ -17,7 +17,7 @@ def get_subprocess(cmd):
     exitcode = proc.returncode
     return exitcode, output
 
-cmd = "python3 /vagrant/speedtest-practice/speedtest.py --json"
+cmd = "/usr/bin/python3 /vagrant/speedtest-practice/speedtest.py --json"
 exitcode, output = get_subprocess(cmd)
 
 if (exitcode == 0):
@@ -27,7 +27,7 @@ if (exitcode == 0):
     myPublicIP = myArray['client']['ip']
     peerServer = myArray['server']['sponsor'] + " " +  (myArray['server']['name']) + " " + (myArray['server']['country'])
     try:
-        mydb = mysql.connector.connect(option_files='pass.conf')
+        mydb = mysql.connector.connect(option_files='/vagrant/speedtest-practice/pass.conf')
         mycursor = mydb.cursor()
         sql = "INSERT INTO speedtest (TimeStamp, PublicIp, Peers, UploadSpeed, DownloadSpeed) Values(%s,%s,%s,%s,%s)"
         vals = (currentTime,myPublicIP,peerServer,speedtestUploadSpeed,speedtestDownloadSpeed)

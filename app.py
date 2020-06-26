@@ -14,7 +14,7 @@ mysql =  MySQL(app)
 def index():
 
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * from speedtest")
+    cur.execute("SELECT * from speedtes where TimeStamp >= CURDATE();")
     data = cur.fetchall()
     cur.close()
 

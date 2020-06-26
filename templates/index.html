@@ -95,7 +95,7 @@ var updateInterval = 300000;
 // initial value
 var yValue1 = 14;
 var yValue2 = 16;
-
+var xValue = new Date;
 var time = new Date;
 // starting at 7.30 am
 time.setHours(7);
@@ -105,18 +105,18 @@ time.setMilliseconds(00);
 
 function updateChart() {
 	{% for row in speedtests %} 
-		time.setTime(time.getTime()+ updateInterval);
+		xValue = Date.parse("{{ row[1] }}");
 		yValue1 = {{ row[5] }};
 		yValue2 = {{ row[4] }};
 
 	// pushing the new values
 	dataPoints1.push({
-		x: time.getTime(),
+		x: xValue,
 		y: yValue1
 	});
 
 	dataPoints2.push({
-		x: time.getTime(),
+		x: xValue,
 		y: yValue2
 	});	
                 {% endfor  %}
