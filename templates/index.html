@@ -2,7 +2,22 @@
 {% include "header.html" %}
 <link href="{{url_for('static', filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
 {% block body %}
-<div class="container">
+<p>
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Link with href
+  </a>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#chartContainer" aria-expanded="false" aria-controls="collapseExample">
+    Button with data-target
+  </button>
+</p>
+<div class="collapse">
+  <div class="card card-body">
+    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+  </div>
+</div>
+
+<div class="container collapse" id="collapseExample">
+	<div class="card card-body">
     <div class="row">
         <div class="col md-12">
             <table class="table table-striped">
@@ -140,6 +155,7 @@ setInterval(function(){updateChart()}, updateInterval);
 <!-- Modal -->
   {% include "footer.html" %}
     </div>
+	</div>
 </div>
 {% endblock %}
 <script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
