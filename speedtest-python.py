@@ -8,6 +8,7 @@ import datetime
 
 
 currentTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+print(currentTime)
 
 def get_subprocess(cmd):
     args = shlex.split(cmd)
@@ -16,13 +17,13 @@ def get_subprocess(cmd):
     exitcode = proc.returncode
     return exitcode, output
 
-cmd = "python3 speedtest.py --json"
+cmd = "python3 /vagrant/speedtest-practice/speedtest.py --json"
 exitcode, output = get_subprocess(cmd)
 
 if (exitcode == 0):
     myArray = json.loads(output)
-    speedtestDownloadSpeed = myArray['download']
-    speedtestUploadSpeed = myArray['upload']
+    speedtestDownloadSpeed = round((myArray['download'] / 1000000),2)
+    speedtestUploadSpeed = round(myArray['upload'] / 1000000,2)
     myPublicIP = myArray['client']['ip']
     peerServer = myArray['server']['sponsor'] + " " +  (myArray['server']['name']) + " " + (myArray['server']['country'])
     try:

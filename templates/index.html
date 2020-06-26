@@ -1,0 +1,150 @@
+
+{% include "header.html" %}
+<link href="{{url_for('static', filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <table class="table table-striped">
+
+          <tr>
+              <th>Id</th>
+              <th>Timestamp</th>
+              <th>Public IP</th>
+              <th>Peer Server</th>
+              <th>Download Speed(Mbps)</th>
+              <th>Upload Speed(Mbps)</th>
+          </tr>
+
+                {% for row in speedtests %}
+                <tr>
+                    <td>{{row.0}}</td>
+                    <td>{{row.1}}</td>
+                    <td>{{row.2}}</td>
+                    <td>{{row.3}}</td>
+                    <td>{{row.5}}</td>
+                    <td>{{row.4}}</td>
+                    <td>
+                </tr>
+
+                <div id="modaledit{{row.0}}" class="modal fade" role="dialog">
+</div>
+                {% endfor  %}
+                </tbody>
+            </table>
+        </div>
+	<!DOCTYPE HTML>
+<head>
+<script>
+window.onload = function () {
+
+var dataPoints1 = [];
+var dataPoints2 = [];
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	zoomEnabled: true,
+	title: {
+		text: "Download and Upload speeds"
+	},
+	axisX: {
+		title: "chart updates every 5 minutes"
+	},
+	axisY:{
+		prefix: "Mbps ",
+		includeZero: true
+	},
+	toolTip: {
+		shared: true
+	},
+	legend: {
+		cursor:"pointer",
+		verticalAlign: "top",
+		fontSize: 22,
+		fontColor: "dimGrey",
+		itemclick : toggleDataSeries
+	},
+	data: [{
+		type: "line",
+		xValueType: "dateTime",
+		yValueFormatString: "####Mbps",
+		xValueFormatString: "hh:mm:ss TT",
+		showInLegend: true,
+		name: "Download",
+		dataPoints: dataPoints1
+		},
+		{
+			type: "line",
+			xValueType: "dateTime",
+			yValueFormatString: "####Mbps",
+			showInLegend: true,
+			name: "Upload" ,
+			dataPoints: dataPoints2
+	}]
+});
+
+function toggleDataSeries(e) {
+	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		e.dataSeries.visible = false;
+	}
+	else {
+		e.dataSeries.visible = true;
+	}
+	chart.render();
+}
+
+var updateInterval = 300000;
+// initial value
+var yValue1 = 14;
+var yValue2 = 16;
+
+var time = new Date;
+// starting at 7.30 am
+time.setHours(7);
+time.setMinutes(30);
+time.setSeconds(00);
+time.setMilliseconds(00);
+
+function updateChart() {
+	{% for row in speedtests %} 
+		time.setTime(time.getTime()+ updateInterval);
+		yValue1 = '{{ row[5] }}';
+		yValue2 = '{{ row[4] }}';
+		console.log(yValue1);
+
+	// pushing the new values
+	dataPoints1.push({
+		x: time.getTime(),
+		y: yValue1
+	});
+		console.log(dataPoints1);
+
+	dataPoints2.push({
+		x: time.getTime(),
+		y: yValue2
+	});	
+		console.log(dataPoints2);
+                {% endfor  %}
+
+	// updating legend text with  updated with y Value
+	chart.options.data[0].legendText = " Download " + yValue1 + " Mbps";
+	chart.options.data[1].legendText = " Upload " + yValue2 + " Mbps";
+	chart.render();
+}
+// generates first set of dataPoints
+updateChart();
+setInterval(function(){updateChart()}, updateInterval);
+
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+<!-- Modal -->
+  {% include "footer.html" %}
+    </div>
+</div>
+{% endblock %}
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
