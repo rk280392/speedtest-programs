@@ -2,11 +2,12 @@
 {% include "header.html" %}
 <link href="{{url_for('static', filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
 {% block body %}
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script ctype="text/javascript" src="{{url_for('static', filename = 'js/canvasjs.min.js')}}"></script>
+<script ctype="text/javascript" src="{{url_for('static', filename = 'js/exportToCSV.js')}}"></script>
 
 	<!DOCTYPE HTML>
 <head>
-<script>
+<script type="text/javascript">
 window.onload = function () {
 
 var dataPoints1 = [];
@@ -61,6 +62,7 @@ function toggleDataSeries(e) {
 		e.dataSeries.visible = true;
 	}
 	chart.render();
+
 }
 
 var updateInterval = 300000;
@@ -97,6 +99,9 @@ function updateChart() {
 	chart.options.data[0].legendText = " Download " + yValue1 + " Mbps";
 	chart.options.data[1].legendText = " Upload " + yValue2 + " Mbps";
 	chart.render();
+	document.getElementById("exportChart").addEventListener("click",function(){
+        chart.exportChart({format: ".jpg"});
+    });
 }
 // generates first set of dataPoints
 updateChart();
@@ -116,6 +121,9 @@ setInterval(function(){updateChart()}, updateInterval);
             aria-expanded="false" aria-controls="collapseExample" style="margin-left: 10px;">
             Speedtest Graph
         </button>
+	<button class="btn btn-primary" type="button" onclick="exportTableToCSV('ISPSpeedReport.csv')">Export ISP Report To CSV File</button>
+	<button class="btn btn-primary" type="button" id="exportChart">Export Chart</button>
+
     </p>
 </div>
 <div class="row card card-body collapse" id="tableContainer">
@@ -160,7 +168,6 @@ setInterval(function(){updateChart()}, updateInterval);
 	     <span class="pull-right"><a href="https://github.com/rk280392/speedtest-programs.git"> Source Code</a></span>
     </div>
     </div-->
-</div>
 </body>
 <!-- Modal -->
 {% endblock %}
